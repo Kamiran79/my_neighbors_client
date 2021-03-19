@@ -20,7 +20,7 @@ export const MyNeighbors = () => (
         }} />
 
         <Route path="/login" render={() => {
-            if (localStorage.getItem("my_neighbors_id")) {
+            if (localStorage.getItem("my_neighbors_user_id")) {
                 return <Redirect to="/" />
             } else {
                 return <Login />
@@ -28,7 +28,7 @@ export const MyNeighbors = () => (
         }} />
 
         <Route path="/register" render={(props) => {
-            if (localStorage.getItem("my_neighbors_id")) {
+            if (localStorage.getItem("my_neighbors_user_id")) {
                 return <Redirect to="/" />
             } else {
                 return <Register {...props} />

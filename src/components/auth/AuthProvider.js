@@ -8,11 +8,11 @@ export const AuthProvider = (props) => {
     const [subscriptions, setSubscriptions] = useState([])
 
     const getUserAdminStatus = () => {
-        const body = { "token": `${localStorage.getItem("rare_user_id")}` }
+        const body = { "token": `${localStorage.getItem("my_neighbors_user_id")}` }
         return fetch("http://localhost:8000/is_admin", {
             method: "POST",
             headers: {
-                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+                "Authorization": `Token ${localStorage.getItem("my_neighbors_user_id")}`
             },
             body: JSON.stringify(body)
         })
@@ -23,7 +23,7 @@ export const AuthProvider = (props) => {
     const getUsers = () => {
         return fetch("http://localhost:8000/users", {
             headers: {
-                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+                "Authorization": `Token ${localStorage.getItem("my_neighbors_user_id")}`
             }
         })
             .then(res => res.json())
@@ -33,7 +33,7 @@ export const AuthProvider = (props) => {
     const getUserById = (id) => {
         return fetch(`http://localhost:8000/users/${id}`, {
             headers: {
-                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+                "Authorization": `Token ${localStorage.getItem("my_neighbors_user_id")}`
             }
         })
             .then(res => res.json())
@@ -44,7 +44,7 @@ export const AuthProvider = (props) => {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+                "Authorization": `Token ${localStorage.getItem("my_neighbors_user_id")}`
             },
             body: JSON.stringify(partialBody)
         })
@@ -54,7 +54,7 @@ export const AuthProvider = (props) => {
     const getSubscriptions = () => {
         return fetch("http://localhost:8000/subscriptions", {
             headers: {
-                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+                "Authorization": `Token ${localStorage.getItem("my_neighbors_user_id")}`
             }
         })
             .then(res => res.json())
@@ -66,7 +66,7 @@ export const AuthProvider = (props) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+                "Authorization": `Token ${localStorage.getItem("my_neighbors_user_id")}`
             },
             body: JSON.stringify({author_id: author_id})
         })
@@ -78,7 +78,7 @@ export const AuthProvider = (props) => {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+                "Authorization": `Token ${localStorage.getItem("my_neighbors_user_id")}`
             },
             body: JSON.stringify({ended_on: true})
         })
