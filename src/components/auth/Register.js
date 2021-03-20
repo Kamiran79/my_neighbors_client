@@ -1,6 +1,7 @@
 import React, { useRef } from "react"
 import { useHistory } from "react-router-dom"
 
+import Logo from "../nav/myNeighborsChef.jpg"
 import "./Auth.css"
 
 export const Register = () => {
@@ -12,6 +13,12 @@ export const Register = () => {
     const verifyPassword = useRef()
     const displayName =  useRef()
     const profileImageUrl = useRef('')
+    const address = useRef()
+    const city = useRef()
+    const state = useRef()
+    const zipCode = useRef()
+    const telephone = useRef()
+    const isChef = useRef()
 
     const history = useHistory()
 
@@ -22,12 +29,17 @@ export const Register = () => {
             const newUser = {
                 "first_name": firstName.current.value,
                 "last_name": lastName.current.value,
-                "bio": bio.current.value,
+                // "bio": bio.current.value,
                 "email": email.current.value,
                 "password": password.current.value,
                 "username": email.current.value,
-                "is_staff": true,
-                "display_name": displayName.current.value,
+                // "is_staff": true,
+                "address": address.current.value,
+                "city": city.current.value,
+                "state": state.current.value,
+                "zipCode": zipCode.current.value,
+                "telephone": telephone.current.value,
+                "isChef": isChef.current.checked,
                 "profile_image_url": profileImageUrl.current.value
             }
 
@@ -42,8 +54,8 @@ export const Register = () => {
             .then(res => res.json())
             .then(res => {
                 if ("token" in res) {
-                    localStorage.setItem("my_neighbors_token", res.token)
-                    localStorage.setItem( "my_neighbors_id", res.user_id )
+                    localStorage.setItem("my_neighbors_user_id", res.token)
+                    // localStorage.setItem( "my_neighbors_id", res.user_id )
                     history.push("/")
                 }
             })
@@ -57,33 +69,51 @@ export const Register = () => {
                 <div className="field-container">
                     <div style={{ padding: "50px" }}>
                         <div className="logo-container-register">
-                            <img src="https://i.ibb.co/k0ff5JZ/rare-logo.jpg" alt="Rare Logo" className="logo-register" />
+                            <img src={Logo} alt="Rare Logo" className="logo-register" />
                         </div>
-                        <fieldset>
+                        <fieldset className="register_fields">
                             <input ref={firstName} type="text" name="firstName" className="form-control" placeholder="First name" required autoFocus />
                         </fieldset>
-                        <fieldset>
+                        <fieldset className="register_fields">
                             <input ref={lastName} type="text" name="lastName" className="form-control" placeholder="Last name" required />
                         </fieldset>
-                        <fieldset>
+                        <fieldset className="register_fields">
                             <input ref={email} type="email" name="email" className="form-control" placeholder="Email address" required />
                         </fieldset>
-                    </div>
-                    <div style={{ padding: "50px" }}>
-                        <fieldset>
+                        <fieldset className="register_fields">
                             <input ref={password} type="password" name="password" className="form-control" placeholder="Password" required />
                             <p style={{ fontSize: '.8em', fontWeight: 'bold', padding: '0' }}><em> Minimum eight characters, at least one uppercase letter, one lowercase letter and one number </em></p>
                         </fieldset>
-                        <fieldset className="verify-password">
+                        <fieldset className="verify-password register_fields">
                             <input ref={verifyPassword} type="password" name="verifyPassword" className="form-control" placeholder="Verify password" required />
+                        </fieldset>                        
+                    </div>
+                    <div style={{ padding: "50px" }}>
+                        <fieldset className="register_fields">
+                            <input type="text" ref={address} name="address" className="form-control" placeholder="Address" required />
                         </fieldset>
-                        <fieldset>
-                            <input type="text" ref={displayName} name="displayName" className="form-control" placeholder="Display name" required />
+                        <fieldset className="register_fields">
+                            <input type="text" ref={city} name="city" className="form-control" placeholder="City" required />
                         </fieldset>
-                        <fieldset>
+                        <fieldset className="register_fields">
+                            <input type="text" ref={state} name="state" className="form-control" placeholder="State" required />
+                        </fieldset>
+                        <fieldset className="register_fields">
+                            <input type="text" ref={zipCode} name="zipCode" className="form-control" placeholder="Zip Code" required />
+                        </fieldset>
+                        <fieldset className="register_fields">
+                            <input type="text" ref={telephone} name="telephone" className="form-control" placeholder="Telephone" required />
+                        </fieldset>                        
+                        <fieldset className="register_fields">
+                            <label className="switch input1">
+                                Is Chef
+                                </label>
+                            <input className="input1" type="checkbox" ref={isChef} name="isChef"></input>
+                        </fieldset>                                                                                                                   
+                        <fieldset className="register_fields">
                             <textarea ref={profileImageUrl} name="profileImageUrl" className="form-control" placeholder="Profile Image URL" />
                         </fieldset>
-                        <fieldset>
+                        <fieldset className="register_fields">
                             <textarea ref={bio} name="bio" className="form-control" placeholder="Let other rare users know a little bit about you..." />
                         </fieldset>
                         <fieldset style={{

@@ -6,6 +6,7 @@ import "./Auth.css"
 export const Login = () => {
     const email = React.createRef()
     const password = React.createRef()
+    const isStaff = React.createRef()
     const invalidDialog = React.createRef()
     const history = useHistory() 
 
@@ -20,7 +21,8 @@ export const Login = () => {
             },
             body: JSON.stringify({
                 username: email.current.value,
-                password: password.current.value
+                password: password.current.value,
+                is_staf: isStaff.current.checked
             })
         })
             .then(res => res.json())
@@ -50,7 +52,13 @@ export const Login = () => {
                     </fieldset>
                     <fieldset>
                         <input ref={password} type="password" id="password" className="form-control"  placeholder="Password" required />
-                    </fieldset>
+                    </fieldset>                        
+                    <fieldset className="register_fields">
+                            <label className="switch input1">
+                                Is Chef
+                                </label>
+                            <input className="input1" type="checkbox" ref={isStaff} name="isStaff"></input>
+                    </fieldset> 
                     <fieldset style={{
                         textAlign:"center"
                     }}>

@@ -3,7 +3,7 @@ import { AuthContext } from '../auth/AuthProvider'
 import { Link, useHistory } from "react-router-dom"
 
 import "./NavBar.css"
-import Logo from "./rare.jpeg"
+import Logo from "./myNeighborsChef.jpg"
 
 export const NavBar = () => {
     const { getUserAdminStatus, isAdmin, isChef } = useContext(AuthContext);
