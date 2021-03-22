@@ -23,12 +23,12 @@ export const NavBar = () => {
                 </li>
                 <li className="navbar__item mx-3">
                     <div className="d-flex justify-content-center">
-                        <Link to="/posts" className="btn btn-outline-primary w-100">All Posts</Link>
+                        <Link to="/menus" className="btn btn-outline-primary w-100">All Menus</Link>
                     </div>
                 </li>
                 <li className="navbar__item mx-3">
                     <div className="d-flex justify-content-center">
-                        <Link to="/user/posts" className="btn btn-outline-primary w-100">My Posts</Link>
+                        <Link to="/user/menus" className="btn btn-outline-primary w-100">My Menus</Link>
                     </div>
                 </li>
                 {isAdmin ? (

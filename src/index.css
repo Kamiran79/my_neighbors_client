@@ -13,10 +13,14 @@ code {
 } */
 
 
-@import url("https://fonts.googleapis.com/css?family=Comfortaa|Patua+One");
+/*@import url("https://fonts.googleapis.com/css?family=Comfortaa|Patua+One");
 /* @import "~@fortawesome/fontawesome-free/css/all.min.css"; */
 /*Typography
 --------------------------------------------------------------*/
+
+@import url("https://fonts.googleapis.com/css?family=Comfortaa%7CPatua+One");
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+
 
 body, button, input, select, textarea {
     color: #404040;
