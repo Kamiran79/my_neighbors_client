@@ -1,6 +1,10 @@
 import React, { useContext } from "react"
 import { Route, Redirect } from "react-router-dom"
 
+import { MenuProvider } from "./menus/MenuProvider.js"
+import { MenuList } from "./menus/MenuList.js"
+import { MenuTable } from "./menus/MenuTable.js"
+
 import { CategoryProvider } from './categories/CategoryProvider.js'
 import { CategoryList } from './categories/CategoryList'
 
@@ -21,38 +25,38 @@ export const ApplicationViews = () => {
             lineHeight: "1.75rem"
         }}>
             <CategoryProvider>
-                {/* <TagProvider>
-                    <PostProvider>
+                {/* <TagProvider> */}
+                    <MenuProvider>
                         <Route exact path="/">
-                            <PostList />
+                            <MenuList />
                         </Route>
-                        <Route exact path="/user/posts" render={props => <PostList {...props} />} />
-                        <Route path="/user/posts/:userId(\d+)" render={props => <PostList {...props} />} />
-                        <Route exact path="/posts" render={(props) => {
+                        <Route exact path="/user/menus" render={props => <MenuList {...props} />} />
+                        <Route path="/user/menus/:userId(\d+)" render={props => <MenuList {...props} />} />
+                        <Route exact path="/menus" render={(props) => {
                             return <>
                                 <main className="postContainer">
-                                    <h1>Posts</h1>
+                                    <h1>Menus</h1>
 
-                                    <PostSearch />
-                                    <PostTable />
+                                    {/* <PostSearch /> */}
+                                    <MenuTable />
                                 </main>
 
                             </>
                         }} />
 
-                        <Route exact path="/posts/create" render={(props) => {
-                            return <PostForm {...props} />
-                        }} />
+                        {/* <Route exact path="/menus/create" render={(props) => {
+                            return <MenuForm {...props} />
+                        }} /> */}
 
-                        <ReactionProvider>
+                        {/* <ReactionProvider>
                             <Route path="/posts/:postId(\d+)" render={
                                 props => <PostDetails {...props} />
                             } />
                             <Route path="/posts/edit/:postId(\d+)" render={
                                 props => <PostForm {...props} />
                             } />
-                        </ReactionProvider>
-                        <CommentProvider>
+                        </ReactionProvider> */}
+                        {/* <CommentProvider>
 
                             <Route path="/post/:postId(\d+)/comments" render={(props) => {
                                 return <>
@@ -65,9 +69,9 @@ export const ApplicationViews = () => {
                             }} />
 
 
-                        </CommentProvider>
-                    </PostProvider>
-                    <Route exact path="/tags" render={(props) => {
+                        </CommentProvider> */}
+                    </MenuProvider>
+                    {/* <Route exact path="/tags" render={(props) => {
                         return <>
                             {
                                 isAdmin
@@ -78,8 +82,8 @@ export const ApplicationViews = () => {
                                     : <Redirect to="/" />
                             }
                         </>
-                    }} />
-                </TagProvider> */}
+                    }} /> */}
+                {/* </TagProvider> */}
                 <Route exact path='/categories' render={() => {
                     return <>
                         {
