@@ -1,0 +1,40 @@
+.tags {
+  text-align: center;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  padding: .5rem 2rem .5rem 2rem;
+  margin: .5rem;
+}
+
+.addTagForm {
+  border: 1px solid black;
+  border-radius: 5rem;
+  padding: 1rem;
+  min-width: 20rem;
+  min-height: 20rem;
+}
+
+.tagInput {
+  padding: .5rem;
+}
+
+.tagname {
+  background-color: rgb(77, 77, 77);
+  color: white;
+  margin: 1rem;
+  border-radius: 5px;
+  text-align: center;
+  min-width: 20rem;
+  padding: .5rem;
+}
+
+.tagicon {
+  margin: 0 5px 0 5px;
+}
+
+.allTags {
+  margin: 5vw 0 0 0;
+}
