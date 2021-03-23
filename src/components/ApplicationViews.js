@@ -1,9 +1,15 @@
 import React, { useContext } from "react"
 import { Route, Redirect } from "react-router-dom"
 
+import { MenuDetails } from "./menus/MenuDetails.js"
+import { MenuSearch } from "./menus/MenuSearch.js"
 import { MenuProvider } from "./menus/MenuProvider.js"
 import { MenuList } from "./menus/MenuList.js"
 import { MenuTable } from "./menus/MenuTable.js"
+import { MenuForm } from "./menus/MenuForm.js"
+
+import { TagProvider } from "./ingredients/TagProvider.js"
+import { TagList } from "./ingredients/TagList.js"
 
 import { CategoryProvider } from './categories/CategoryProvider.js'
 import { CategoryList } from './categories/CategoryList'
@@ -25,37 +31,53 @@ export const ApplicationViews = () => {
             lineHeight: "1.75rem"
         }}>
             <CategoryProvider>
-                {/* <TagProvider> */}
+                <TagProvider>
                     <MenuProvider>
                         <Route exact path="/">
                             <MenuList />
                         </Route>
-                        <Route exact path="/user/menus" render={props => <MenuList {...props} />} />
+                        <Route exact path="/user/menus" render={props =>{
+                            isAdmin
+                            ?<MenuList {...props} />:
+                            <Redirect to="/" />} 
+                        }/>
+                        
                         <Route path="/user/menus/:userId(\d+)" render={props => <MenuList {...props} />} />
+                        {/* <Route exact path="/user/menus" render={() => {
+                            return <>
+                                {
+                                    isAdmin
+                                        ? <main className="categoriesContainer">
+                                            <h1>Available Categories</h1>
+                                            <CategoryList />
+                                        </main>
+                                        : <Redirect to="/" />
+                                }
+                            </>
+                        }} />                         */}
                         <Route exact path="/menus" render={(props) => {
                             return <>
                                 <main className="postContainer">
                                     <h1>Menus</h1>
 
-                                    {/* <PostSearch /> */}
+                                    <MenuSearch />
                                     <MenuTable />
                                 </main>
 
                             </>
                         }} />
 
-                        {/* <Route exact path="/menus/create" render={(props) => {
+                        <Route exact path="/menus/create" render={(props) => {
                             return <MenuForm {...props} />
-                        }} /> */}
+                        }} />
 
-                        {/* <ReactionProvider>
-                            <Route path="/posts/:postId(\d+)" render={
-                                props => <PostDetails {...props} />
-                            } />
-                            <Route path="/posts/edit/:postId(\d+)" render={
-                                props => <PostForm {...props} />
-                            } />
-                        </ReactionProvider> */}
+                        <Route path="/menus/:menuId(\d+)" render={
+                            props => <MenuDetails {...props} />
+                        } />
+                        <Route path="/posts/edit/:postId(\d+)" render={
+                            props => <MenuForm {...props} />
+                        } />
+
                         {/* <CommentProvider>
 
                             <Route path="/post/:postId(\d+)/comments" render={(props) => {
@@ -71,7 +93,7 @@ export const ApplicationViews = () => {
 
                         </CommentProvider> */}
                     </MenuProvider>
-                    {/* <Route exact path="/tags" render={(props) => {
+                    <Route exact path="/tags" render={(props) => {
                         return <>
                             {
                                 isAdmin
@@ -82,8 +104,8 @@ export const ApplicationViews = () => {
                                     : <Redirect to="/" />
                             }
                         </>
-                    }} /> */}
-                {/* </TagProvider> */}
+                    }} />
+                </TagProvider>
                 <Route exact path='/categories' render={() => {
                     return <>
                         {

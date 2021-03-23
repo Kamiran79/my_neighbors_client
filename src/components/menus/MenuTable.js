@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from "react"
 import { Link, useHistory } from 'react-router-dom'
 import { MenuContext } from "./MenuProvider"
-// import { TagContext } from "../tags/TagProvider"
+import { TagContext } from "../ingredients/TagProvider"
 import { AuthContext } from '../auth/AuthProvider'
 import "./Menus.css"
 
@@ -61,8 +61,10 @@ export const MenuTable = () => {
         const matchingMenus = menus.filter(menu => menu.name.toLowerCase().includes(searchTerms.toLowerCase()))
         let validMenus = []
         isAdmin ? 
-        (validMenus = matchingMenus.filter((menu) => (Date.parse(menu.ready_eat) < Date.now()))) :
-        (validMenus = matchingMenus.filter((menu) => (Date.parse(menu.ready_eat) < Date.now()) && (menu.status === true)))      
+        (validMenus = matchingMenus.filter((menu) => (Date.parse(menu.ready_eat) < Date.now()) && (menu.status === true) && (menu.my_neighbor_user['zipCode'] === zipCode))) :
+        (validMenus = matchingMenus.filter((menu) => (Date.parse(menu.ready_eat) < Date.now()) && (menu.status === true) && (menu.my_neighbor_user['zipCode'] === zipCode)))
+        // (validMenus = matchingMenus.filter((menu) => (Date.parse(menu.ready_eat) < Date.now()))) :
+        // (validMenus = matchingMenus.filter((menu) => (Date.parse(menu.ready_eat) < Date.now()) && (menu.status === true)))      
         setFiltered(validMenus)
     }, [searchTerms])
 
@@ -102,7 +104,7 @@ export const MenuTable = () => {
             </dialog>
             <div className="d-flex flex-row justify-content-end">
                 <button className="d-flex flex-row justify-content-center align-items-center post__add btn btn-primary mr-5"
-                    onClick={() => history.push("/posts/create")}
+                    onClick={() => history.push("/menus/create")}
                 >
                     Add {zipCode}Menu
                     <i className="fas fa-plus ml-4 mr-2"></i>
@@ -114,10 +116,15 @@ export const MenuTable = () => {
                         <tr>
                             <th scope="col"></th>
                             <th scope="col">Menu Name</th>
-                            <th scope="col">Author</th>
                             <th scope="col">Ready Eat</th>
-                            <th scope="col">Category</th>
                             <th scope="col">Ingredients</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Delivery</th>
+                            <th scope="col">Pick Up</th>
+                            <th scope="col">Dine In</th>
+                            <th scope="col">Chef</th>
+                            <th scope="col">QTY Available</th>
+                            <th scope="col">Category</th>
                             {isAdmin ? (<th scope="col">Status</th>) : (<></>) }
                         </tr>
                     </thead>
@@ -138,12 +145,18 @@ export const MenuTable = () => {
                                             </div>
                                         </td>) : <td></td>}
                                     <td><Link to={`/menus/${menu.id}`}>{menu.name}</Link></td>
-                                    <td>{menu.my_neighbor_user && menu.my_neighbor_user.user.first_name} {menu.my_neighbor_user && menu.my_neighbor_user.user.last_name}</td>
                                     <td>{menu.ready_eat}</td>
-                                    <td>{menu.category && menu.category.label}</td>
-                                    {/* <td>{post.tags && post.tags.map(tag => (
+                                    <td>{menu.ingredients && menu.ingredients.map(tag => (
                                         <div key={tag.id}>{tag.label}</div>
-                                    ))}</td> */}
+                                    ))}</td>
+                                    <td>${menu.price}.00</td>
+                                    <td>{menu.delivery}</td>
+                                    <td><input type="checkbox" name="isPick_up" checked={menu.pick_up} value={menu.id} />{menu.pick_up}</td>
+                                    <td><input type="checkbox" name="isDine_in" checked={menu.dine_in} value={menu.id} /> {menu.dine_in}</td>
+                                    <td>{menu.my_neighbor_user && menu.my_neighbor_user.user.first_name} {menu.my_neighbor_user && menu.my_neighbor_user.user.last_name}</td>
+                                    <td>{menu.how_many_left}</td>
+                                    <td>{menu.category && menu.category.label}</td>
+
                                     {isAdmin ? (<td>
                                         <input type="checkbox" name="isApproved" checked={menu.status} value={menu.id} onChange={handleIsApprovedUpdate} />
                                         </td>) : (<></>) }

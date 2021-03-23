@@ -23,25 +23,27 @@ export const NavBar = () => {
                 </li>
                 <li className="navbar__item mx-3">
                     <div className="d-flex justify-content-center">
-                        <Link to="/menus" className="btn btn-outline-primary w-100">All Menus</Link>
-                    </div>
-                </li>
-                <li className="navbar__item mx-3">
-                    <div className="d-flex justify-content-center">
-                        <Link to="/user/menus" className="btn btn-outline-primary w-100">My Menus</Link>
+                        <Link to="/menus" className="btn btn-outline-primary w-100">Menus</Link>
                     </div>
                 </li>
                 {isAdmin ? (
                     <li className="navbar__item mx-3">
                         <div className="d-flex justify-content-center">
-                            <Link to="/categories" className="btn btn-outline-primary w-100">Category Manager</Link>
+                            <Link to="/user/menus" className="btn btn-outline-primary w-100">My Menus</Link>
                         </div>
                     </li>
                 ) : (<></>)}
                 {isAdmin ? (
                     <li className="navbar__item mx-3">
                         <div className="d-flex justify-content-center">
-                            <Link to="/tags" className="btn btn-outline-primary w-100">Tag Manager</Link>
+                            <Link to="/categories" className="btn btn-outline-primary w-100">Category</Link>
+                        </div>
+                    </li>
+                ) : (<></>)}
+                {isAdmin ? (
+                    <li className="navbar__item mx-3">
+                        <div className="d-flex justify-content-center">
+                            <Link to="/tags" className="btn btn-outline-primary w-100">Tag</Link>
                         </div>
                     </li>
                 ) : (<></>)}
@@ -49,7 +51,7 @@ export const NavBar = () => {
                 {isAdmin ? (
                     <li className="navbar__item mx-3">
                         <div className="d-flex justify-content-center">
-                            <Link to="/users" className="btn btn-outline-primary w-100">User Manager</Link>
+                            <Link to="/users" className="btn btn-outline-primary w-100">Users</Link>
                         </div>
                     </li>
                 ) : (<></>)}
