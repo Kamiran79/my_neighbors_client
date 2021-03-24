@@ -1,6 +1,7 @@
 import React from "react"
 import "./Menus.css"
 import { Link } from "react-router-dom"
+import moment from 'moment';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (props) => (
@@ -11,14 +12,14 @@ export default (props) => (
                     {props.menu.name}
                 </Link>
             </h3>
-            <small>Ready To Eat: {props.menu.ready_eat}</small>
+            <small>Ready To Eat: {moment(props.menu.ready_eat).format('hh mm A')}</small>
         </div>
         <div className="d-flex flex-row justify-content-center">
             {/* <img className="mb-5 img-fluid" src="https://via.placeholder.com/400x200" /> */}
             <img className="mb-5 img-fluid" src={props.menu.foodImgUrl} />
         </div>
         <div className="d-flex flex-row justify-content-between align-items-center">
-            <div className="">Author: {props.menu.my_neighbor_user && props.menu.my_neighbor_user.user.first_name} {props.menu.my_neighbor_user && props.menu.my_neighbor_user.user.last_name}</div>
+            <div className="">Chef: {props.menu.my_neighbor_user && props.menu.my_neighbor_user.user.first_name} {props.menu.my_neighbor_user && props.menu.my_neighbor_user.user.last_name}</div>
             <div className="d-flex flex-row justify-content-between align-items-center">
                 <div className="border rounded-pill p-2"><small># Reaction Count</small></div>
                 <Link to={`/menus/edit/${props.menu.id}`}>
