@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from "react"
 import { Link, useHistory } from 'react-router-dom'
+import moment from 'moment';
 import { MenuContext } from "./MenuProvider"
 import { TagContext } from "../ingredients/TagProvider"
 import { AuthContext } from '../auth/AuthProvider'
@@ -145,12 +146,12 @@ export const MenuTable = () => {
                                             </div>
                                         </td>) : <td></td>}
                                     <td><Link to={`/menus/${menu.id}`}>{menu.name}</Link></td>
-                                    <td>{menu.ready_eat}</td>
+                                    <td>{moment(menu.ready_eat).format('hh mm A')}</td>
                                     <td>{menu.ingredients && menu.ingredients.map(tag => (
                                         <div key={tag.id}>{tag.label}</div>
                                     ))}</td>
                                     <td>${menu.price}.00</td>
-                                    <td>{menu.delivery}</td>
+                                    <td><input type="checkbox" name="isDelivery" checked={menu.delivery} value={menu.id} />{menu.delivery}</td>
                                     <td><input type="checkbox" name="isPick_up" checked={menu.pick_up} value={menu.id} />{menu.pick_up}</td>
                                     <td><input type="checkbox" name="isDine_in" checked={menu.dine_in} value={menu.id} /> {menu.dine_in}</td>
                                     <td>{menu.my_neighbor_user && menu.my_neighbor_user.user.first_name} {menu.my_neighbor_user && menu.my_neighbor_user.user.last_name}</td>

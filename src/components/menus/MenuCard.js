@@ -14,7 +14,8 @@ export default (props) => (
             <small>Ready To Eat: {props.menu.ready_eat}</small>
         </div>
         <div className="d-flex flex-row justify-content-center">
-            <img className="mb-5 img-fluid" src="https://via.placeholder.com/400x200" />
+            {/* <img className="mb-5 img-fluid" src="https://via.placeholder.com/400x200" /> */}
+            <img className="mb-5 img-fluid" src={props.menu.foodImgUrl} />
         </div>
         <div className="d-flex flex-row justify-content-between align-items-center">
             <div className="">Author: {props.menu.my_neighbor_user && props.menu.my_neighbor_user.user.first_name} {props.menu.my_neighbor_user && props.menu.my_neighbor_user.user.last_name}</div>

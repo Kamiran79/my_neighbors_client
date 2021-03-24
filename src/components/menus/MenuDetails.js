@@ -102,7 +102,8 @@ export const MenuDetails = (props) => {
                     </div>
                 </div>
                 <div className="text-center">
-                    <img className="mb-5 img-fluid w-100" src="https://via.placeholder.com/400x100" />
+                    {/* <img className="mb-5 img-fluid w-100" src="https://via.placeholder.com/400x100" /> */}
+                    <img className="mb-5 img-fluid w-100" src={menu.foodImgUrl} />
                 </div>
                 <div className="d-flex flex-row justify-content-between align-items-center">
                     <div>

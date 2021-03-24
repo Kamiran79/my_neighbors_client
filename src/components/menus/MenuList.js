@@ -24,10 +24,10 @@ export const MenuList = (props) => {
 
     // Initialization effect hook -> Go get post data
     useEffect(() => {
-        if (props.location && props.location.pathname.includes('/user/menus') && props.match.params.userId) {
-            // get posts by user id
-            getMenusByUserId(parseInt(props.match.params.userId))
-        } else if (props.location && props.location.pathname === '/user/Menus') {
+        // if (props.location && props.location.pathname.includes('/user/menus') && props.match.params.userId) {
+        //     // get posts by user id
+        //     getMenusByUserId(parseInt(props.match.params.userId))
+        if (props.location && props.location.pathname === '/user/Menus') {
             getMenusByCurrentUserId()
         } else {
             // get all posts
@@ -50,8 +50,10 @@ export const MenuList = (props) => {
 
     useEffect(() => {
         const userId = props.match && parseInt(props.match.params.userId)
-        getUserById(userId ? userId : localStorage.getItem("my_neighbors_user_id"))
+        if (userId) {
+            getUserById(userId)
             .then(setUserProfile)
+        }
     }, [])
 
 

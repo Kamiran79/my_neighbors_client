@@ -18,6 +18,7 @@ import { NavBar } from "./nav/NavBar"
 import { AuthContext } from "./auth/AuthProvider.js"
 
 import { UserTable } from "./users/UserTable.js"
+import { UserProfile } from "./users/UserProfile.js"
 
 
 
@@ -36,12 +37,20 @@ export const ApplicationViews = () => {
                         <Route exact path="/">
                             <MenuList />
                         </Route>
-                        <Route exact path="/user/menus" render={props =>{
+                        {/* <Route exact path="/user/menus" render={props =>{
                             isAdmin
                             ?<MenuList {...props} />:
                             <Redirect to="/" />} 
-                        }/>
+                        }/> */}
                         
+                        <Route exact path="/user/menus" render={(props) => 
+                            { return <>
+                            {
+                                <MenuList {...props} />
+                            }
+                                </>
+                            }} />
+
                         <Route path="/user/menus/:userId(\d+)" render={props => <MenuList {...props} />} />
                         {/* <Route exact path="/user/menus" render={() => {
                             return <>
@@ -49,7 +58,7 @@ export const ApplicationViews = () => {
                                     isAdmin
                                         ? <main className="categoriesContainer">
                                             <h1>Available Categories</h1>
-                                            <CategoryList />
+                                            <MenuList />
                                         </main>
                                         : <Redirect to="/" />
                                 }
@@ -74,7 +83,7 @@ export const ApplicationViews = () => {
                         <Route path="/menus/:menuId(\d+)" render={
                             props => <MenuDetails {...props} />
                         } />
-                        <Route path="/posts/edit/:postId(\d+)" render={
+                        <Route path="/menus/edit/:menuId(\d+)" render={
                             props => <MenuForm {...props} />
                         } />
 
@@ -144,6 +153,13 @@ export const ApplicationViews = () => {
                     }
                 </>
             }} />
+
+            <Route path="/users/:userId(\d+)" render={
+                    props => <UserProfile {...props} />
+                } 
+            /> 
+
+
             {/* <Route path="/users/:userId(\d+)" render={
                 props => <UserProfile {...props} />
             } */}
