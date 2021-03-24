@@ -4,7 +4,7 @@ import { AuthContext } from '../auth/AuthProvider'
 import "./Users.css"
 
 export const UserTable = () => {
-    const { isAdmin, getUsers, users, partialyUpdateUser } = useContext(AuthContext)
+    const { currentUser, getCurrentUser, isAdmin, getUsers, users, partialyUpdateUser } = useContext(AuthContext)
     const [sortedUsers, setSortedUsers] = useState([])   
     const deleteUserModal = useRef(); 
     const tempPopupModal = useRef();
@@ -16,7 +16,8 @@ export const UserTable = () => {
     const [adminRadioStatus, setAdminRadioStatus] = useState(false)
 
     useEffect(() => {
-        getUsers()        
+        getUsers()      
+        getCurrentUser()  
     }, [])
 
     useEffect(() => {
@@ -25,17 +26,17 @@ export const UserTable = () => {
     }, [users])
 
     const handleUserType = e => {
-        const rareuserId = selectedUser
-        const selectedRareuser = users.find((rareuser)=> rareuser.id === rareuserId)
-        const userId = selectedRareuser.user.id
+        const my_neighbors_userId = selectedUser
+        const selectedmy_neighbors_user = users.find((my_neighbors_user)=> my_neighbors_user.id === my_neighbors_userId)
+        const userId = selectedmy_neighbors_user.user.id
         const partialObject = {"user" : {"is_staff" : adminRadioStatus, "id": userId} }   
-        partialyUpdateUser(rareuserId, partialObject)
+        partialyUpdateUser(my_neighbors_userId, partialObject)
             .then(history.push("/users"))
             .then(changeUserTypeModal.current.close())              
     }
 
     const showDeactivated = e => {
-        const deactivatedUsers = users.filter((rareuser) => (rareuser.user.is_active !== true))
+        const deactivatedUsers = users.filter((my_neighbors_user) => (my_neighbors_user.user.is_active !== true))
         if(deactivatedUsers.length === 0){
             tempPopupModal.current.showModal()
         } 
@@ -47,11 +48,11 @@ export const UserTable = () => {
     }
 
     const handleIsActive = e => {
-        const rareuserId = selectedUser
-        const selectedRareuser = users.find((rareuser)=> rareuser.id === rareuserId)
-        const userId = selectedRareuser.user.id
+        const my_neighbors_userId = selectedUser
+        const selectedmy_neighbors_user = users.find((my_neighbors_user)=> my_neighbors_user.id === my_neighbors_userId)
+        const userId = selectedmy_neighbors_user.user.id
         const partialObject = {"user" : {"is_active" : checkboxStatus, "id": userId} }   
-        partialyUpdateUser(rareuserId, partialObject)
+        partialyUpdateUser(my_neighbors_userId, partialObject)
             .then(history.push("/users"))
             .then(deleteUserModal.current.close())
     }
@@ -97,16 +98,16 @@ export const UserTable = () => {
                    
                     <tbody>
                         {
-                            sortedUsers.map(rareuser => (
-                                <tr key={rareuser.id}>
+                            sortedUsers.map(my_neighbors_user => (
+                                <tr key={my_neighbors_user.id}>
                                     
-                                    <td><Link to={`/users/${rareuser.id}`}>{rareuser.user.username}</Link></td>
+                                    <td><Link to={`/users/${my_neighbors_user.id}`}>{my_neighbors_user.user.username}</Link></td>
                                     <td>
-                                        <span>{rareuser.user.first_name} {rareuser.user.first_name}</span>
+                                        <span>{my_neighbors_user.user.first_name} {my_neighbors_user.user.first_name}</span>
                                     </td>
                                     <td>
-                                        <input type="checkbox" className= "mr-2" name="isActive" checked={rareuser.user.is_active} value={rareuser.id} onChange={(e) => {
-                                            setSelectedUser(rareuser.id)
+                                        <input type="checkbox" className= "mr-2" name="isActive" checked={my_neighbors_user.user.is_active} value={my_neighbors_user.id} onChange={(e) => {
+                                            setSelectedUser(my_neighbors_user.id)
                                             setCheckboxStatus(e.target.checked)
                                             deleteUserModal.current.showModal()
                                             }} />
@@ -114,7 +115,7 @@ export const UserTable = () => {
                                     </td>
                                     
                                     <td className="d-flex justify-content-center align-items-center" onChange = {(e) => {
-                                        setSelectedUser(rareuser.id)
+                                        setSelectedUser(my_neighbors_user.id)
                                         if (e.target.value === "admin") {
                                             setAdminRadioStatus(true) }
                                         else {
@@ -122,10 +123,10 @@ export const UserTable = () => {
                                         } 
                                         changeUserTypeModal.current.showModal()
                                     }} >           
-                                        <input type="radio" className="mr-2" name={rareuser.user.id} checked={!(rareuser.user.is_staff)} value="author" />
+                                        <input type="radio" className="mr-2" name={my_neighbors_user.user.id} checked={!(my_neighbors_user.user.is_staff)} value="author" />
                                         <label className="form-check-label mr-4">Author</label>
                                     
-                                        <input type="radio" className="mx-2" name={rareuser.user.id} checked={rareuser.user.is_staff} value="admin" />
+                                        <input type="radio" className="mx-2" name={my_neighbors_user.user.id} checked={my_neighbors_user.user.is_staff} value="admin" />
                                         <label className="form-check-label">Admin</label>
                                     </td>
                                 </tr>

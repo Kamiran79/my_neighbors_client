@@ -39,14 +39,14 @@ export const MenuProvider = (props) => {
         })
             .then(res => res.json())
             .then(res => {
-                fetch(`http://localhost:8000/users/${res.user_id}`, {
+                fetch(`http://localhost:8000/menus?user_id=${res.user_id}`, {
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Token ${localStorage.getItem("my_neighbors_user_id")}`
                     }
                 })
                     .then(res => res.json())
-                    .then(res => setMenus(res.posts))
+                    .then(res => setMenus(res.menus))
             })
     }
 
@@ -58,7 +58,7 @@ export const MenuProvider = (props) => {
             }
         })
             .then(res => res.json())
-            .then(res => setMenus(res.posts))
+            .then(res => setMenus(res.menus))
     }
 
     // const getPostById = (id) => {

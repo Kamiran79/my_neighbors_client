@@ -1,4 +1,5 @@
-import React, { useContext, useState, useEffect, Fragment } from "react"
+import React, { useContext, useState, useEffect, Fragment, useRef } from "react"
+// import DatePicker from 'react-datepicker';
 import { useHistory } from 'react-router-dom'
 import { MenuContext } from "./MenuProvider"
 import { CategoryContext } from "../categories/CategoryProvider"
@@ -19,6 +20,8 @@ export const MenuForm = (props) => {
     // Component state
     const [menu, setMenu] = useState({})
     const [newTags, setNewTags] = useState([])
+    const [image_url, setImage_url] = useState('')
+    //const image_url = useRef('')
 
     // History
     const history = useHistory();
@@ -95,18 +98,19 @@ export const MenuForm = (props) => {
 
     const constructNewMenu = () => {
         const menuTagsArray = newTags.filter(pt => pt.isChecked === true).map(nt => nt.id)
+        const imageString = image_url
 
         if (editMode) {
             // PUT
             updateMenu({
                 id: menu.id,
-                title: menu.title,
+                name: menu.name,
                 content: menu.content,
-                category_id: parseInt(menu.category_id),
-                publication_date: menu.publication_date,
-                author_id: menu.rareuser.id,
-                image_url: menu.image_url,
-                tags: menuTagsArray
+                category: parseInt(menu.category_id),
+                ready_eat: menu.ready_eat,
+                //my_neighbors_user_id: menu.my_neighbors_user.id,
+                foodImgUrl: imageString,
+                ingredients: menuTagsArray
             })
                 .then(() => props.history.push(`/menus/${menu.id}`))
         } else {
@@ -117,13 +121,27 @@ export const MenuForm = (props) => {
                 category: menu.category_id,
                 price: 6,
                 how_many_left: 7,
-                foodImgUrl: menu.image_url,
+                foodImgUrl: imageString,
                 ingredients: menuTagsArray
             })
                 .then((newlyCreatedMenu) => props.history.push(`/menus/${newlyCreatedMenu.id}`))
         }
 
     }
+
+    const getBase64 = (file, callback) => {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result));
+        reader.readAsDataURL(file);
+    };
+
+    const createImageString = (e) => {
+        getBase64(e.target.files[0], (base64ImageString) => {
+            setImage_url(base64ImageString);
+        })
+    };
+    
+    
 
     return (
         <div className="container w-50">
@@ -133,17 +151,28 @@ export const MenuForm = (props) => {
                     <div className="form-group">
                         <input type="text" name="name" required autoFocus className="form-control w-75"
                             placeholder="Menu name"
-                            defaultValue={menu.title}
+                            defaultValue={menu.name}
                             onChange={handleControlledInputChange}
                         />
                     </div>
                 </fieldset>
                 <fieldset>
+                  {/* <div class="form-group col-md-6">
+                    <label htmlFor="oDate"><i class="fas fa-calendar-alt"></i> Open Date: {' '} </label>
+                    <DatePicker
+                      class="form-control"
+                      selected={oDate}
+                      onChange={this.oDateEvent}
+                      showTimeSelect
+                    />
+                  </div>                   */}
+                </fieldset>
+                <fieldset>
                     <div className="form-group">
-                        <input type="text" name="image_url" className="form-control w-75"
+                        <input type="file" name="image_url" className="form-control w-75"
                             placeholder="Image URL"
-                            defaultValue={menu.image_url}
-                            onChange={handleControlledInputChange}>
+                            defaultValue={menu.foodImgUrl}
+                            onChange={createImageString}>
                         </input>
                     </div>
                 </fieldset>
