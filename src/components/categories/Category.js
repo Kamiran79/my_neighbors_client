@@ -3,6 +3,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import "./Categories.css"
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default (props) => (
   <div className="categories">
     <div className="categoryicon"><i className="fas fa-cog fa-2x" id={props.category.id} data-categoryname={props.category.label} onClick={props.editACategory}></i></div>

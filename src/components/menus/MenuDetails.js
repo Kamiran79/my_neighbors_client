@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react"
 import { useHistory } from 'react-router-dom'
 import { MenuContext } from "./MenuProvider.js"
+import moment from 'moment';
 // import { PostReaction } from "../reactions/PostReaction"
 // import { ReactionContext } from "../reactions/ReactionProvider"
 // import { ReactionSelector } from "../reactions/ReactionSelector"
@@ -107,8 +108,8 @@ export const MenuDetails = (props) => {
                 </div>
                 <div className="d-flex flex-row justify-content-between align-items-center">
                     <div>
-                        <small >Ready Eat on {menu.ready_eat} </small>
-                        <small className="d-block"> By {menu.my_neighbors_user && menu.my_neighbors_user.user.first_name} {menu.my_neighbors_user && menu.my_neighbors_user.user.last_name}</small>
+                        <small >Ready Eat on {moment(menu.ready_eat).format('hh mm A')} </small>
+                        <small className="d-block"> By {menu.my_neighbor_user && menu.my_neighbor_user.user.first_name} {menu.my_neighbor_user && menu.my_neighbor_user.user.last_name}</small>
                     </div>
                     <div>
                         {/* <button className="btn btn-outline-primary mt-0" onClick={() => history.push(`/menu/${menu.id}/comments`)}>View Comments</button> */}
@@ -139,7 +140,7 @@ export const MenuDetails = (props) => {
                     </div>
                 </div>
                 <div className="post__content">
-                    {menu.note}
+                    {menu.content}
                 </div>
             </div>
             <div className="mr-auto">

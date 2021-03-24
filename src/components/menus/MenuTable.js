@@ -103,20 +103,26 @@ export const MenuTable = () => {
                     <button className="btn btn-outline-primary" onClick={e => deleteMenuModal.current.close()}>Cancel</button>
                 </div>
             </dialog>
-            <div className="d-flex flex-row justify-content-end">
-                <button className="d-flex flex-row justify-content-center align-items-center post__add btn btn-primary mr-5"
-                    onClick={() => history.push("/menus/create")}
-                >
-                    Add {zipCode}Menu
-                    <i className="fas fa-plus ml-4 mr-2"></i>
-                </button>
-            </div>
+            {
+                isAdmin?
+                <div className="d-flex flex-row justify-content-end">
+                    <button className="d-flex flex-row justify-content-center align-items-center post__add btn btn-primary mr-5"
+                        onClick={() => history.push("/menus/create")}
+                    >
+                        Add {zipCode}Menu
+                        <i className="fas fa-plus ml-4 mr-2"></i>
+                    </button>
+                </div>
+                :(<></>)         
+            }
+
             <div className="posts post__table mt-5 mx-3 px-3">
                 <table className="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th scope="col"></th>
-                            <th scope="col">Menu Name</th>
+                            <th scope="col">Menu</th>
+                            <th scope="col">Name</th>
                             <th scope="col">Ready Eat</th>
                             <th scope="col">Ingredients</th>
                             <th scope="col">Price</th>
@@ -145,6 +151,7 @@ export const MenuTable = () => {
                                                 ></i>
                                             </div>
                                         </td>) : <td></td>}
+                                    <td><Link to={`/menus/${menu.id}`}><img className="mb-5 img-fluid w-100" src={menu.foodImgUrl} /></Link></td>    
                                     <td><Link to={`/menus/${menu.id}`}>{menu.name}</Link></td>
                                     <td>{moment(menu.ready_eat).format('hh mm A')}</td>
                                     <td>{menu.ingredients && menu.ingredients.map(tag => (
