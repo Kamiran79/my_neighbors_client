@@ -106,8 +106,13 @@ export const MenuDetails = (props) => {
                                 deleteMenuModal.current.showModal()
                             }}></i>
                             <i className="fas fa-cog post__hover" onClick={() => history.push(`/menus/edit/${menu.id}`)}></i>
+                            <button className="btn btn-primary post__hover">Make an Order &nbsp;
+                            <i className="fas fa-plus post__hover" onClick={() => history.push(`/orders/create/${menu.id}`)}></i>
+                        </button>                             
                         </div>
-                        :''
+                        : <button className="btn btn-primary post__hover" onClick={() => history.push(`/orders/create/${menu.id}`)}>Make an Order &nbsp;
+                            <i className="fas fa-plus post__hover" ></i>
+                        </button> 
                     }
                     <div>
                         <small>{menu.category && menu.category.label}</small>

@@ -22,6 +22,7 @@ import { UserProfile } from "./users/UserProfile.js"
 import { OrderProvider } from "./orders/OrderProvider.js"
 import { OrderList } from "./orders/OrderList.js"
 import { OrderTable } from "./orders/OrderTable.js"
+import { CreateOrder } from "./orders/CreateOrder.js"
 
 
 
@@ -84,8 +85,20 @@ export const ApplicationViews = () => {
                         }} />
 
                         <Route path="/menus/:menuId(\d+)" render={
-                            props => <MenuDetails {...props} />
+                            props => { 
+                                return <>
+                                    <main>
+                                        <MenuDetails {...props} />
+
+                                    </main>                                                                
+                                </>
+                            }
                         } />
+                        <OrderProvider>
+                            <Route path="/orders/create/:menuId(\d+)" render={
+                                props => <CreateOrder {...props} />
+                            } />
+                        </OrderProvider>                         
                         <Route path="/menus/edit/:menuId(\d+)" render={
                             props => <MenuForm {...props} />
                         } />
@@ -168,9 +181,9 @@ export const ApplicationViews = () => {
                             <OrderTable {...props} />
                         }
                         </>
-                    }} />                
+                    }} /> 
+                              
             </OrderProvider> 
-
 
             {/* <Route path="/users/:userId(\d+)" render={
                 props => <UserProfile {...props} />
