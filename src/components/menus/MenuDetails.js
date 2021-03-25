@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react"
 import { useHistory } from 'react-router-dom'
 import { MenuContext } from "./MenuProvider.js"
+import { AuthContext } from '../auth/AuthProvider'
 import moment from 'moment';
 // import { PostReaction } from "../reactions/PostReaction"
 // import { ReactionContext } from "../reactions/ReactionProvider"
@@ -9,6 +10,7 @@ import "./Menus.css"
 
 export const MenuDetails = (props) => {
     const { getMenuById, releaseMenu } = useContext(MenuContext)
+    const { isAdmin } = useContext(AuthContext)
     // const { reactionsList, getReactions } = useContext(ReactionContext)
     const history = useHistory();
     const deleteMenuModal = useRef();
@@ -79,25 +81,34 @@ export const MenuDetails = (props) => {
 
     return (
         <section className="post d-flex flex-row">
-            <dialog className="dialog dialog--deletePost" ref={deleteMenuModal}>
-                <h4>Are you sure you want to delete this post?</h4>
-                <div className="d-flex flex-row justify-content-around align-items-center w-100">
-                    <button className="deletePost btn btn-outline-primary" onClick={() => {
-                        releaseMenu(menu.id)
-                            .then(history.push("/menus"))
-                    }}>Ok</button>
-                    <button className="btn btn-outline-primary" onClick={e => deleteMenuModal.current.close()}>Cancel</button>
-                </div>
-            </dialog>
+            {
+                isAdmin?
+                <dialog className="dialog dialog--deletePost" ref={deleteMenuModal}>
+                    <h4>Are you sure you want to delete this post?</h4>
+                    <div className="d-flex flex-row justify-content-around align-items-center w-100">
+                        <button className="deletePost btn btn-outline-primary" onClick={() => {
+                            releaseMenu(menu.id)
+                                .then(history.push("/menus"))
+                        }}>Ok</button>
+                        <button className="btn btn-outline-primary" onClick={e => deleteMenuModal.current.close()}>Cancel</button>
+                    </div>
+                </dialog>
+                :''
+            }
+
             <div className="post_details d-flex flex-column container mr-0">
                 <h3 className="post__title text-center">{menu.name}</h3>
                 <div className="d-flex flex-row justify-content-between">
-                    <div className="post__manage__buttons">
-                        <i className="fas fa-trash-alt post__hover__delete" onClick={() => {
-                            deleteMenuModal.current.showModal()
-                        }}></i>
-                        <i className="fas fa-cog post__hover" onClick={() => history.push(`/menus/edit/${menu.id}`)}></i>
-                    </div>
+                    {
+                        isAdmin?
+                        <div className="post__manage__buttons">
+                            <i className="fas fa-trash-alt post__hover__delete" onClick={() => {
+                                deleteMenuModal.current.showModal()
+                            }}></i>
+                            <i className="fas fa-cog post__hover" onClick={() => history.push(`/menus/edit/${menu.id}`)}></i>
+                        </div>
+                        :''
+                    }
                     <div>
                         <small>{menu.category && menu.category.label}</small>
                     </div>
@@ -144,7 +155,8 @@ export const MenuDetails = (props) => {
                 </div>
             </div>
             <div className="mr-auto">
-                {menu.tags && menu.tags.map(tag => (
+                <h6>Ingredients:</h6>
+                {menu.ingredients && menu.ingredients.map(tag => (
                     <div key={tag.id} className="d-flex align-items-center border border-primary rounded px-5 mb-3">{tag.label}</div>
                 ))}
             </div>
