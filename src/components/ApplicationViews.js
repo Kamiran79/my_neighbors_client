@@ -19,6 +19,9 @@ import { AuthContext } from "./auth/AuthProvider.js"
 
 import { UserTable } from "./users/UserTable.js"
 import { UserProfile } from "./users/UserProfile.js"
+import { OrderProvider } from "./orders/OrderProvider.js"
+import { OrderList } from "./orders/OrderList.js"
+import { OrderTable } from "./orders/OrderTable.js"
 
 
 
@@ -157,7 +160,16 @@ export const ApplicationViews = () => {
             <Route path="/users/:userId(\d+)" render={
                     props => <UserProfile {...props} />
                 } 
-            /> 
+            />
+            <OrderProvider>
+                <Route exact path="/orders" render={(props) => 
+                    { return <>
+                        {
+                            <OrderTable {...props} />
+                        }
+                        </>
+                    }} />                
+            </OrderProvider> 
 
 
             {/* <Route path="/users/:userId(\d+)" render={
