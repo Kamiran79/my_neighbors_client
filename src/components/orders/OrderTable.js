@@ -126,16 +126,13 @@ export const OrderTable = () => {
                         <tr>
                             <th scope="col"></th>
                             <th scope="col">order</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Ready Eat</th>
-                            <th scope="col">Ingredients</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Delivery</th>
-                            <th scope="col">Pick Up</th>
-                            <th scope="col">Dine In</th>
-                            <th scope="col">Chef</th>
-                            <th scope="col">QTY Available</th>
-                            <th scope="col">Category</th>
+                            <th scope="col">status</th>
+                            <th scope="col">Reserved date</th>
+                            <th scope="col">Order Complete</th>
+                            <th scope="col">How Many Ordered</th>
+                            <th scope="col">Total Cost</th>
+                            <th scope="col">Order Type</th>
+                            <th scope="col">isConfirmed</th>
                             {isAdmin ? (<th scope="col">Status</th>) : (<></>) }
                         </tr>
                     </thead>
@@ -146,7 +143,7 @@ export const OrderTable = () => {
                                     {((order.my_neighbor_user && order.my_neighbor_user.id) === userId) || (isAdmin) ? (
                                         <td className="p-0">
                                             <div className="d-flex flex-row justify-content-around h-100 align-items-center">
-                                                <Link to={`orders/edit/${order.id}`} ><i className="fas fa-cog"></i></Link>
+                                                <Link to={`orders/edit/chef/${order.id}`} ><i className="fas fa-cog"></i></Link>
                                                 <i className="far fa-trash-alt text-danger post__hover__delete"
                                                     onClick={() => {
                                                         setOrderToBeDeleted(order.id)
@@ -154,20 +151,26 @@ export const OrderTable = () => {
                                                     }}
                                                 ></i>
                                             </div>
-                                        </td>) : <td></td>}
-                                    <td><Link to={`/orders/${order.id}`}><img className="mb-5 img-fluid w-100" src={order.foodImgUrl} /></Link></td>    
+                                        </td>) : <td className="p-0">
+                                        <div className="d-flex flex-row justify-content-around h-100 align-items-center">
+                                                <Link to={`orders/edit/user/${order.id}`} ><i className="fas fa-cog"></i></Link>
+                                                <i className="far fa-trash-alt text-danger post__hover__delete"
+                                                    onClick={() => {
+                                                        setOrderToBeDeleted(order.id)
+                                                        deleteOrderModal.current.showModal()
+                                                    }}
+                                                ></i>
+                                            </div>                                            
+                                            </td>}
+                                    <td><Link to={`/orders/${order.id}`}><img className="mb-5 img-fluid w-100" src={order.menu_order.foodImgUrl} /></Link></td>    
                                     <td><Link to={`/orders/${order.id}`}>{order.status}</Link></td>
-                                    <td>{moment(order.reserved_date).format('hh mm A')}</td>
-                                    <td>{order.ingredients && order.ingredients.map(tag => (
-                                        <div key={tag.id}>{tag.label}</div>
-                                    ))}</td>
-                                    <td>${order.price}.00</td>
-                                    <td><input type="checkbox" name="isDelivery" checked={order.confirmed} value={order.id} />{order.confirmed}</td>
-                                    <td><input type="checkbox" name="isPick_up" checked={order.pick_up} value={order.id} />{order.pick_up}</td>
-                                    <td><input type="checkbox" name="isDine_in" checked={order.dine_in} value={order.id} /> {order.dine_in}</td>
-                                    <td>{order.my_neighbor_user && order.my_neighbor_user.user.first_name} {order.my_neighbor_user && order.my_neighbor_user.user.last_name}</td>
-                                    <td>{order.how_many_left}</td>
-                                    <td>{order.category && order.category.label}</td>
+                                    <td>{moment(order.reserved_date).format('lll')}</td>
+                                    <td>{order.delivery_date}</td>
+                                    <td>{order.how_many}</td>
+                                    <td>${order.total_cost}.00</td>
+                                    <td>{order.order_type}</td>
+                                    <td><input type="checkbox" name="isConfirmed" checked={order.isConfirmed} />{order.isConfirmed}</td>
+                                    
 
                                     {isAdmin ? (<td>
                                         <input type="checkbox" name="isApproved" checked={order.status} value={order.id} onChange={handleIsApprovedUpdate} />

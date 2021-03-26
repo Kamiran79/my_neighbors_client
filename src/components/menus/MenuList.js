@@ -92,7 +92,7 @@ export const MenuList = (props) => {
                 <button className="d-flex flex-row justify-content-center align-items-center post__add btn btn-primary mr-5"
                     onClick={() => history.push("/menus/create")}
                 >
-                    Add Post
+                    Add Menu
                     <i className="fas fa-plus ml-4 mr-2"></i>
                 </button>
             </div>

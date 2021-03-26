@@ -45,7 +45,7 @@ export const TagList = (props) => {
       <div className="d-flex flex-row justify-content-around">
         <dialog className="dialog dialog--editTag" ref={editTagDialog}>
               <div className="d-flex flex-column justify-content-around align-items-center">
-                <h4>Edit this tag</h4>
+                <h4>Edit this ingredient</h4>
                 <input className="editTagInput form-control mb-5" type="text" placeholder="Add text" value={editedTag} onChange={e => {
                   setEditTag(e.target.value)
                 }}></input>
@@ -56,7 +56,7 @@ export const TagList = (props) => {
               </div>
             </dialog>
             <dialog className="dialog dialog--deleteTag text-center" ref={deleteTagDialog}>
-                <h4>Are you sure you want to delete this tag?</h4>
+                <h4>Are you sure you want to delete this ingredient?</h4>
                 <div className="d-flex flex-row justify-content-around align-items-center w-100">
                   <button className="deleteTag btn btn-outline-primary" onClick={deleteATag}>Ok</button>
                   <button className="btn btn-outline-primary" onClick={e => deleteTagDialog.current.close()}>Close</button>
@@ -69,7 +69,7 @@ export const TagList = (props) => {
         </div>
         <div> 
           <div className="addTagForm d-flex flex-column justify-content-around align-items-center">
-            <h2>Create a new tag</h2>
+            <h2>Create a new INgredient</h2>
             <input className="tagInput" type="text" placeholder="Add text" value={newTag} onChange={e => {
               setNewTag(e.target.value)
             }}></input>
