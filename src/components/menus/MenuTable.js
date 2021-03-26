@@ -109,7 +109,7 @@ export const MenuTable = () => {
                     <button className="d-flex flex-row justify-content-center align-items-center post__add btn btn-primary mr-5"
                         onClick={() => history.push("/menus/create")}
                     >
-                        Add {zipCode}Menu
+                        Add Menu -- All Menu Show by your zipCode {zipCode}
                         <i className="fas fa-plus ml-4 mr-2"></i>
                     </button>
                 </div>

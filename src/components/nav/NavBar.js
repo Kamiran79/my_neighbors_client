@@ -48,7 +48,7 @@ export const NavBar = () => {
                 {isAdmin ? (
                     <li className="navbar__item mx-3">
                         <div className="d-flex justify-content-center">
-                            <Link to="/tags" className="btn btn-outline-primary w-100">Tag</Link>
+                            <Link to="/tags" className="btn btn-outline-primary w-100">Ingredient</Link>
                         </div>
                     </li>
                 ) : (<></>)}

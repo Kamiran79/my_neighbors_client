@@ -21,7 +21,7 @@ export default (props) => (
         <div className="d-flex flex-row justify-content-between align-items-center">
             <div className="">Chef: {props.menu.my_neighbor_user && props.menu.my_neighbor_user.user.first_name} {props.menu.my_neighbor_user && props.menu.my_neighbor_user.user.last_name}</div>
             <div className="d-flex flex-row justify-content-between align-items-center">
-                <div className="border rounded-pill p-2"><small># Reaction Count</small></div>
+                <div className="border rounded-pill p-2"><small># Rating</small></div>
                 <Link to={`/menus/edit/${props.menu.id}`}>
                     <div className="posticon"><i className="fas fa-cog fa-2x"></i></div>
                 </Link>

@@ -23,6 +23,9 @@ import { OrderProvider } from "./orders/OrderProvider.js"
 import { OrderList } from "./orders/OrderList.js"
 import { OrderTable } from "./orders/OrderTable.js"
 import { CreateOrder } from "./orders/CreateOrder.js"
+import { OrderDetails } from "./orders/OrderDetails.js"
+import { OrderUpdateUser } from "./orders/UpdateOrderUser.js"
+import { OrderUpdateChef } from "./orders/UpdateOrderChef.js"
 
 
 
@@ -98,8 +101,39 @@ export const ApplicationViews = () => {
                             <Route path="/orders/create/:menuId(\d+)" render={
                                 props => <CreateOrder {...props} />
                             } />
+
+                            <Route path="/orders/:orderId(\d+)" render={
+                                props => { 
+                                    return <>
+                                        <main>
+                                            <OrderDetails {...props} />
+
+                                        </main>                                                                
+                                    </>
+                                }
+                            } />
+                            <Route path="/orders/edit/user/:orderId(\d+)" render={
+                                props => { 
+                                    return <>
+                                        <main>
+                                            <OrderUpdateUser {...props} />
+
+                                        </main>                                                                
+                                    </>
+                                }
+                            } />
+                            <Route path="/orders/edit/chef/:orderId(\d+)" render={
+                                props => { 
+                                    return <>
+                                        <main>
+                                            <OrderUpdateChef {...props} />
+
+                                        </main>                                                                
+                                    </>
+                                }
+                            } />                                                             
                         </OrderProvider>                         
-                        <Route path="/menus/edit/:menuId(\d+)" render={
+                        <Route exact path="/menus/edit/:menuId(\d+)" render={
                             props => <MenuForm {...props} />
                         } />
 

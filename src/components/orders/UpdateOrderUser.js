@@ -6,7 +6,7 @@ import { AuthContext } from '../auth/AuthProvider.js'
 import { OrderContext } from './OrderProvider.js'
 import moment from 'moment';
 
-export const OrderDetails = (props) => {
+export const OrderUpdateUser = (props) => {
     const reserved_date = useRef()
     const how_many = useRef()
     const status = useRef()
@@ -18,13 +18,14 @@ export const OrderDetails = (props) => {
     const isDelivered_user = useRef()
 
     const { getMenuById, releaseMenu } = useContext(MenuContext)
-    const { getOrderById } = useContext(OrderContext)
+    const { getOrderById, updateOrder } = useContext(OrderContext)
     const { isAdmin, getUserById } = useContext(AuthContext)
     const history = useHistory();
     const [menu, setMenu] = useState([])
     const [totalCost, setTotalCost] = useState('0')
     const [order, setOrder] = useState({})
     const [chef, setChef] = useState({})
+    const [isDelivered, setIsDelivered] = useState()
     
     useEffect(() => {
       const orderId = parseInt(props.match.params.orderId)
@@ -41,38 +42,32 @@ export const OrderDetails = (props) => {
       e.preventDefault()
       setTotalCost(parseInt(how_many.current.value) * menu.price)
     };
+
+    const handleIsDelivered = (e) => {
+      e.preventDefault()
+      setIsDelivered(e.target.checked)
+    };
     
 
     const handleRegister = (e) => {
         e.preventDefault()
+        console.log(order.id)
 
             const submitOrder = {
-                "reserved_date": reserved_date.current.value,
-                "how_many": how_many.current.value,
-                "status": "Order Submitted",
-                "total_cost": total_cost.current.value,
-                "note": note.current.value,
-                "isDelivered_user": false,
-                "isDelivered_chef": false,
-                "order_type": order_type.current.value,
-                "menu_order": menu.id,
+               id: order.id,
+                // "reserved_date": reserved_date.current.value,
+                // "how_many": how_many.current.value,
+                // "status": "Order Submitted",
+                // "total_cost": total_cost.current.value,
+                // "note": note.current.value,
+                isDelivered_user: isDelivered_user.current.checked,
+                // isConfirmed:isConfirmed.current.checked,
+                // "isDelivered_chef": false,
+                // "order_type": order_type.current.value,
+                // "menu_order": menu.id,
             }
-
-            return fetch("http://127.0.0.1:8000/orders", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify(submitOrder)
-            })
-                .then(res => res.json())
-                .then(res => {
-                    if ("token" in res) {
-                        localStorage.setItem("rare_user_id", res.token)
-                        props.history.push("/")
-                    }
-                })
+            updateOrder(submitOrder)
+            .then(() => props.history.push(`/orders/${order.id}`))
          
         // else {
         //     isDelivered_chef.current.showModal()
@@ -101,16 +96,15 @@ export const OrderDetails = (props) => {
                       <label ref={total_cost} name="total_cost" type="text" id="register--total_cost" className="form-control mb-3 text-left" placeholder="total_cost">
                           <i class="fas fa-file-invoice-dollar"></i> &nbsp;${order && order.total_cost}.00
                       </label>
-                      <select className="form-control mb-3" id="order_type" ref={order_type} name="order_type" required>
+                      <select className="form-control mb-3" id="order_type" ref={order_type} name="order_type" >
                         <option selected disabled>{order.order_type}</option>
                       </select> 
                       <div className="d-flex flex-row">
                           <label className="d-flex flex-column">Order delivered - User confirmation
-                            <input ref={isDelivered_user} name="isDelivered_user" type="checkbox" id="order--isDelivered_user" className="d-flex flex-column form-control mb-3" disabled
-                            checked={order.isDelivered_user}/>
+                            <input ref={isDelivered_user} name="isDelivered_user" type="checkbox" id="order--isDelivered_user" className="d-flex flex-column form-control mb-3" check={isDelivered_user} />
                           </label>
                       </div>                            
-                      <textarea ref={note} name="note" type="text" id="register--note" className="form-control mb-5" placeholder={order.note} rows="4" required />
+                      <textarea ref={note} name="note" type="text" id="register--note" className="form-control mb-5" placeholder={order.note} rows="4" />
                   </div>
                   <div className="d-flex flex-column w-100 text-center">
                         <label className="form-control mb-3 text-left" placeholder="">
@@ -129,7 +123,7 @@ export const OrderDetails = (props) => {
                         <div className="d-flex flex-row">
                           <label className="d-flex flex-column">Is confirmed
                             <input name="isConfirmed" type="checkbox" id="register--isConfirmed" className="d-flex flex-column form-control mb-3" disabled
-                             checked={order.isConfirmed}/>
+                             check={order.isConfirmed}/>
                           </label>
                         </div>
                         {
@@ -157,7 +151,7 @@ export const OrderDetails = (props) => {
                   </div>
               </div>
               <div className="d-flex justify-content-center">
-                  {/* <button className="btn btn-outline-primary w-50" type="submit">Submit your order</button> */}
+                  <button className="btn btn-outline-primary w-50" type="submit">Submit your order</button>
               </div>
               </form>
         </main>
