@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect, Fragment, useRef } from "react"
-// import DatePicker from 'react-datepicker';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment';
 import { useHistory } from 'react-router-dom'
 import { MenuContext } from "./MenuProvider"
 import { CategoryContext } from "../categories/CategoryProvider"
@@ -21,6 +23,7 @@ export const MenuForm = (props) => {
     const [menu, setMenu] = useState({})
     const [newTags, setNewTags] = useState([])
     const [image_url, setImage_url] = useState('')
+    const [ready_eat, setReady_eat] = useState('')
     //const image_url = useRef('')
 
     // History
@@ -38,6 +41,11 @@ export const MenuForm = (props) => {
         newMenu[event.target.name] = event.target.value    // Modify copy
         setMenu(newMenu)                                 // Set copy as new state
     }
+
+    const handleTimeUpdate = (date) => {
+        setReady_eat(date)
+      };    
+
 
     const handleTagUpdate = e => {
         const updatedTagArray = []
@@ -89,6 +97,7 @@ export const MenuForm = (props) => {
     // Once provider state is updated, determine the post (if edit)
     useEffect(() => {
         getMenuInEditMode()
+        setReady_eat(menu.ready_eat)
     }, [menus])
 
     useEffect(() => {
@@ -99,6 +108,7 @@ export const MenuForm = (props) => {
     const constructNewMenu = () => {
         const menuTagsArray = newTags.filter(pt => pt.isChecked === true).map(nt => nt.id)
         const imageString = image_url
+        const readyToEat = ready_eat
 
         if (editMode) {
             // PUT
@@ -107,7 +117,7 @@ export const MenuForm = (props) => {
                 name: menu.name,
                 content: menu.content,
                 category: parseInt(menu.category_id),
-                ready_eat: menu.ready_eat,
+                ready_eat: readyToEat,
                 //my_neighbors_user_id: menu.my_neighbors_user.id,
                 foodImgUrl: imageString,
                 ingredients: menuTagsArray
@@ -122,7 +132,8 @@ export const MenuForm = (props) => {
                 price: 6,
                 how_many_left: 7,
                 foodImgUrl: imageString,
-                ingredients: menuTagsArray
+                ingredients: menuTagsArray,
+                ready_eat: readyToEat
             })
                 .then((newlyCreatedMenu) => props.history.push(`/menus/${newlyCreatedMenu.id}`))
         }
@@ -146,7 +157,7 @@ export const MenuForm = (props) => {
     return (
         <div className="container w-50">
             <form className="postForm">
-                <h2 className="postForm__title">{editMode ? "Update Post" : "New Menu"}</h2>
+                <h2 className="postForm__title">{editMode ? "Update Menu" : "New Menu"}</h2>
                 <fieldset>
                     <div className="form-group">
                         <input type="text" name="name" required autoFocus className="form-control w-75"
@@ -157,17 +168,6 @@ export const MenuForm = (props) => {
                     </div>
                 </fieldset>
                 <fieldset>
-                  {/* <div class="form-group col-md-6">
-                    <label htmlFor="oDate"><i class="fas fa-calendar-alt"></i> Open Date: {' '} </label>
-                    <DatePicker
-                      class="form-control"
-                      selected={oDate}
-                      onChange={this.oDateEvent}
-                      showTimeSelect
-                    />
-                  </div>                   */}
-                </fieldset>
-                <fieldset>
                     <div className="form-group">
                         <input type="file" name="image_url" className="form-control w-75"
                             placeholder="Image URL"
@@ -176,6 +176,27 @@ export const MenuForm = (props) => {
                         </input>
                     </div>
                 </fieldset>
+                <fieldset>
+                  <div class="form-group col-md-6">
+                    <label htmlFor="oDate"><i class="fas fa-calendar-alt"></i> Set ready eat - open date: {' '} </label>
+                    {menu.ready_eat?
+                        <DatePicker
+                            value={moment(ready_eat).format('hh mm A')}
+                            class="form-control"
+                            onChange={handleTimeUpdate}
+                            showTimeSelect
+                        />
+                        :
+                        <DatePicker
+                            selected={ready_eat}
+                            class="form-control"
+                            onChange={handleTimeUpdate}
+                            showTimeSelect
+                        />                        
+                    }
+
+                  </div>                  
+                </fieldset>                
                 <fieldset>
                     <div className="form-group">
                         <textarea rows="7" type="text" name="content" required className="form-control"

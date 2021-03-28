@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState, useRef } from "react"
 import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 // import { Link } from "react-router-dom"
 // import { MenuContext } from "../menus/MenuProvider.js"
 import { useHistory } from 'react-router-dom'
 import { AuthContext } from '../auth/AuthProvider.js'
 import { OrderContext } from './OrderProvider.js'
 import moment from 'moment';
-import 'react-datepicker/dist/react-datepicker.css';
+
 
 export const OrderUpdateChef = (props) => {
     // const reserved_date = useRef()
