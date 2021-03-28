@@ -1,14 +1,17 @@
 import React, { useContext, useEffect, useState, useRef } from "react"
+import DatePicker from 'react-datepicker';
 // import { Link } from "react-router-dom"
-import { MenuContext } from "../menus/MenuProvider.js"
+// import { MenuContext } from "../menus/MenuProvider.js"
 import { useHistory } from 'react-router-dom'
 import { AuthContext } from '../auth/AuthProvider.js'
 import { OrderContext } from './OrderProvider.js'
 import moment from 'moment';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export const OrderUpdateChef = (props) => {
-    const reserved_date = useRef()
-    const how_many = useRef()
+    // const reserved_date = useRef()
+    // const how_many = useRef()
+    // const delivery_date = useRef()
     const status = useRef()
     const total_cost = useRef()
     const order_type = useRef()
@@ -17,35 +20,81 @@ export const OrderUpdateChef = (props) => {
     const note = useRef()
     const isDelivered_user = useRef()
 
-    const { getMenuById, releaseMenu } = useContext(MenuContext)
+    // const { getMenuById, releaseMenu } = useContext(MenuContext)
     const { getOrderById, updateOrder } = useContext(OrderContext)
     const { isAdmin, getUserById } = useContext(AuthContext)
     const history = useHistory();
-    const [menu, setMenu] = useState([])
-    const [totalCost, setTotalCost] = useState('0')
+    // const [menu, setMenu] = useState([])
+    // const [totalCost, setTotalCost] = useState('0')
     const [order, setOrder] = useState({})
-    const [chef, setChef] = useState({})
+    // const [chef, setChef] = useState({})
+    // const delivery_date = new Date()
     
     useEffect(() => {
       const orderId = parseInt(props.match.params.orderId)
       getOrderById(orderId)
         .then(setOrder)
-      if (order.chef_order && order.chef_order.user) {
-        getMenuById(order.chef_order.user)
-        .then(setChef)
-      }
+      // if (order.chef_order && order.chef_order.user) {
+      //   getMenuById(order.chef_order.user)
+      //   .then(setChef)
+      // }
       
     }, [])
 
-    const handleTotalCost = (e) => {
-      e.preventDefault()
-      setTotalCost(parseInt(how_many.current.value) * menu.price)
+    const handleTimeUpdate = (date) => {
+      // e.preventDefault()
+      // const newEvent = {};
+      // console.log(event.value)
+      const newOrder = {
+        id: order.id,
+        url: order.url,
+        reserved_date: order.reserved_date,
+        note: order.note,
+        user_order: order.user_order,
+        menu_order: order.menu_order,
+        chef_order: order.chef_order,
+        delivery_date: date,
+        total_cost: order.total_cost,
+        status: order.status,
+        order_type: order.order_type,
+        how_many: order.how_many,
+        isConfirmed: order.isConfirmed,
+        isDelivered_user: order.isDelivered_user,
+        isDelivered_chef: order.isDelivered_chef
+      } 
+      setOrder(newOrder)      
+      // console.log(e.target.id)
+      // setTotalCost(parseInt(how_many.current.value) * menu.price)
     };
     
+    const handleTagUpdate = e => {
+      // const updatedTagArray = []
+      console.log('clicked handle checked')
+      console.log(e.target.value)
+      const newOrder = {
+        id: order.id,
+        url: order.url,
+        reserved_date: order.reserved_date,
+        note: order.note,
+        user_order: order.user_order,
+        menu_order: order.menu_order,
+        chef_order: order.chef_order,
+        delivery_date: e.target.value === "order--delivery_date"? e.target.value: order.delivery_date, //order--isDelivery_date
+        total_cost: order.total_cost,
+        status: order.status,
+        order_type: order.order_type,
+        how_many: order.how_many,
+        isConfirmed: e.target.value === "order--isConfirmed"? e.target.checked: order.isConfirmed,
+        isDelivered_user: order.isDelivered_user,
+        isDelivered_chef: e.target.value === "order--isDelivered_chef"? e.target.checked: order.isDelivered_chef
+      } 
+      setOrder(newOrder)
+    }    
+
 
     const handleRegister = (e) => {
         e.preventDefault()
-        console.log(order.id)
+        console.log(order.delivery_date)
 
             const submitOrder = {
                id: order.id,
@@ -55,6 +104,7 @@ export const OrderUpdateChef = (props) => {
                 // "total_cost": total_cost.current.value,
                 // "note": note.current.value,
                 // isDelivered_user: isDelivered_user.current.checked,
+                delivery_date: order.delivery_date,
                 isDelivered_chef: isDelivered_chef.current.checked,
                 isConfirmed: isConfirmed.current.checked,
                 status: status.current.value,
@@ -119,19 +169,49 @@ export const OrderUpdateChef = (props) => {
                         </label>                                              
                         <div className="d-flex flex-row">
                           <label className="d-flex flex-column">Is confirmed
-                            <input name="isConfirmed" type="checkbox" id="register--isConfirmed" className="d-flex flex-column form-control mb-3" ref={isConfirmed}/>
+                            <input name="isConfirmed" type="checkbox" id="register--isConfirmed" checked={order.isConfirmed}
+                            className="d-flex flex-column form-control mb-3" ref={isConfirmed} value="order--isConfirmed"
+                            onChange={handleTagUpdate}/>
                           </label>
                         </div>
-                        {
+                        {/* <label className="form-control mb-3" placeholder="Password" required>
+                              <i class="far fa-hourglass"></i>                                
+                        </label> */}
+                        {order.delivery_date?
+                                <DatePicker
+                                    className="form-control mb-3" 
+                                    id="order--delivery_date"
+                                    value={order.delivery_date}
+
+                                    onChange={handleTimeUpdate}
+                                    showTimeSelect
+                                    dateFormat="MM/dd/yyyy  EE hh:mm a"
+                                    />
+                                :
+                                <DatePicker
+                                    className="form-control mb-3" 
+                                    id="order--delivery_date"
+                                    value="Order Complete Date & Time"
+                                    onChange={handleTimeUpdate}
+                                    showTimeSelect
+                                    
+                                    dateFormat="MM/dd/yyyy  EE hh:mm a"/>                          
+                                                      
+                        }                          
+                        {/* {
                           order.delivery_date?
                             <label className="form-control mb-3" placeholder="Password" required>
-                              <i class="far fa-hourglass"></i> {order.delivery_date}
+                              <i class="far fa-hourglass"></i> 
+                              <DatePicker 
+                                value="order--delivery_date"
+                                selected={order.delivery_date}
+                                showTimeSelect/>
                             </label>
                           :
                             <label className="form-control mb-3" placeholder="Password" required>
                               <i class="far fa-hourglass"></i> Order Complete Date & Time
                             </label>                                                    
-                        }                          
+                        }                           */}
                         <select id="status" className="form-control mb-3" ref={status} name="status" >
                           <option selected disabled>{order && order.status}</option>
                           <option value="Cooking">Cooking</option>
@@ -140,7 +220,8 @@ export const OrderUpdateChef = (props) => {
                         </select>
                         <div className="d-flex flex-row">
                           <label className="d-flex flex-column">Order delivered - Chef confirmation
-                          <input ref={isDelivered_chef} name="isDelivered_chef" type="checkbox" id="order--isDelivered_chef" className="d-flex flex-column form-control mb-3"/>
+                          <input ref={isDelivered_chef} name="isDelivered_chef" type="checkbox" id="order--isDelivered_chef" value="order--isDelivered_chef"
+                            className="d-flex flex-column form-control mb-3" onChange={handleTagUpdate} checked={order.isDelivered_chef}/>
                             {/* <input name="isDelivered_chef" type="checkbox" id="order--isDelivered_chef" className="d-flex flex-column form-control mb-3" ref={isDelivered_chef}
                             checked={order.isDelivered_chef}/> */}
                           </label>
