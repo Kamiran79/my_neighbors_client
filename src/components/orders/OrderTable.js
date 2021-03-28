@@ -133,7 +133,7 @@ export const OrderTable = () => {
                             <th scope="col">Total Cost</th>
                             <th scope="col">Order Type</th>
                             <th scope="col">isConfirmed</th>
-                            {isAdmin ? (<th scope="col">Status</th>) : (<></>) }
+                            {isAdmin ? (<th scope="col">TBD</th>) : (<></>) }
                         </tr>
                     </thead>
                     <tbody>
@@ -173,7 +173,7 @@ export const OrderTable = () => {
                                     
 
                                     {isAdmin ? (<td>
-                                        <input type="checkbox" name="isApproved" checked={order.status} value={order.id} onChange={handleIsApprovedUpdate} />
+                                        {/* <input type="checkbox" name="isApproved" checked={order.status} value={order.id} onChange={handleIsApprovedUpdate} /> */}
                                         </td>) : (<></>) }
                                 </tr>
                             ))

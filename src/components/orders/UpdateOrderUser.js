@@ -31,6 +31,9 @@ export const OrderUpdateUser = (props) => {
       const orderId = parseInt(props.match.params.orderId)
       getOrderById(orderId)
         .then(setOrder)
+      if (order && order.isDelivered_user) {
+        console.log('access is true or false')
+      }
       if (order.chef_order && order.chef_order.user) {
         getMenuById(order.chef_order.user)
         .then(setChef)
@@ -74,6 +77,21 @@ export const OrderUpdateUser = (props) => {
         // }
     }
 
+    const handleTagUpdate = e => {
+      // const updatedTagArray = []
+      // console.log('clicked handle checked')
+      // console.log(order.isDelivered_user)
+      if (e.target.checked) {
+        setIsDelivered(true)
+        order.isDelivered_user = true
+      } else {
+        setIsDelivered(false)
+        order.isDelivered_user = false
+      }
+    }
+
+
+
     return (
         <main className="container-md vh-100">
             <dialog className="dialog dialog--order_type" ref={isDelivered_chef}>
@@ -101,7 +119,8 @@ export const OrderUpdateUser = (props) => {
                       </select> 
                       <div className="d-flex flex-row">
                           <label className="d-flex flex-column">Order delivered - User confirmation
-                            <input ref={isDelivered_user} name="isDelivered_user" type="checkbox" id="order--isDelivered_user" className="d-flex flex-column form-control mb-3" check={isDelivered_user} />
+                            <input ref={isDelivered_user} name="isDelivered_user" type="checkbox" value={order.id}
+                            className="d-flex flex-column form-control mb-3" checked={order.isDelivered_user} onChange={handleTagUpdate}/>
                           </label>
                       </div>                            
                       <textarea ref={note} name="note" type="text" id="register--note" className="form-control mb-5" placeholder={order.note} rows="4" />
