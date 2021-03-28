@@ -69,7 +69,7 @@ export const TagList = (props) => {
         </div>
         <div> 
           <div className="addTagForm d-flex flex-column justify-content-around align-items-center">
-            <h2>Create a new INgredient</h2>
+            <h2>Create a new Ingredient</h2>
             <input className="tagInput" type="text" placeholder="Add text" value={newTag} onChange={e => {
               setNewTag(e.target.value)
             }}></input>

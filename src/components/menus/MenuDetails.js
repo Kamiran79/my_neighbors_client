@@ -84,7 +84,7 @@ export const MenuDetails = (props) => {
             {
                 isAdmin?
                 <dialog className="dialog dialog--deletePost" ref={deleteMenuModal}>
-                    <h4>Are you sure you want to delete this post?</h4>
+                    <h4>Are you sure you want to delete this menu?</h4>
                     <div className="d-flex flex-row justify-content-around align-items-center w-100">
                         <button className="deletePost btn btn-outline-primary" onClick={() => {
                             releaseMenu(menu.id)

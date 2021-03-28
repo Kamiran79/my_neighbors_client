@@ -157,7 +157,7 @@ export const ApplicationViews = () => {
                             {
                                 isAdmin
                                     ? <main className="tagsContainer">
-                                        <h1>Available Tags</h1>
+                                        <h1>Available Ingredients</h1>
                                         <TagList {...props} />
                                     </main>
                                     : <Redirect to="/" />
